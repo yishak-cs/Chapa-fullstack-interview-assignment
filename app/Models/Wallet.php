@@ -47,16 +47,4 @@ class Wallet extends Model
     {
         return $this->hasMany(Transaction::class, 'recipient_wallet_id');
     }
-
-    /**
-     * Get all transactions associated with this wallet, both sent and received
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function allTransactions()
-    {
-        return $this->sentTransactions()
-            ->union($this->receivedTransactions())
-            ->orderBy('created_at', 'desc');
-    }
 }

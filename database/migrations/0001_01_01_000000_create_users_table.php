@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['user', 'admin', 'super_admin'])->default('user');
             $table->boolean('is_active')->default(true);
+            //self referential foreign key for admin_id
             $table->foreignId('admin_id')->nullable()->constrained('users')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
