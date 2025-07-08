@@ -32,129 +32,38 @@ interface NavigationItem {
 
 // Define the type for role navigation
 interface RoleNavigation {
-  navMain?: NavigationItem[];
-  CP?: NavigationItem[];
-  issues?: NavigationItem[];
+  navMain: NavigationItem[];
 }
 
 // Define navigation items for each role
 const roleNavigation: Record<string, RoleNavigation> = {
-  business_owner: {
+  super_admin: {
     navMain: [
       {
-        name: "Businesses", // Changed from "Tenants" for business_owner
-        url: "/business-owner/businesses/all",
-        icon: LucideBriefcaseBusiness,
-      },
-      {
         name: "Users",
-        url: "/business-owner/users/all",
+        url: "/users/all",
         icon: Users2,
       },
+    ],
+  },
+  admin: {
+    navMain: [
+      {
+        name: "Users",
+        url: "/users/all",
+        icon: Users2,
+      },
+    ],
+  },
+  user: {
+    navMain: [
+      {
+        name: "Units",
+        url: "#",
+        icon: DoorOpen,
+      },
+    ],
 
-    ],
-    CP: [
-      {
-        name: "Contracts",
-        url: "/business-owner/contracts",
-        icon: Signature,
-      },
-      {
-        name: "Payments",
-        url: "/business-owner/payments/all",
-        icon: BanknoteIcon,
-      }
-    ],
-    issues: [
-      {
-        name: "Maintenance Requests",
-        url: "/maintenance-request",
-        icon: UtilityPole
-      }
-    ]
-  },
-  building_owner: {
-    navMain: [
-      {
-        name: "Tenants",
-        url: "/businesses/all",
-        icon: HandshakeIcon,
-      },
-      {
-        name: "Users",
-        url: "/users/all",
-        icon: Users2,
-      },
-      {
-        name: "Units",
-        url: "/units/all",
-        icon: DoorOpen,
-      },
-    ],
-    CP: [
-      {
-        name: "Contracts",
-        url: "/contracts/all",
-        icon: Signature,
-      },
-      {
-        name: "Payments",
-        url: "/payments/all",
-        icon: BanknoteIcon,
-      }
-    ],
-    issues: [
-      {
-        name: "Maintenance Requests",
-        url: "/maintenance-request",
-        icon: UtilityPole
-      }
-    ]
-  },
-  building_manager: {
-    navMain: [
-      {
-        name: "Tenants",
-        url: "/businesses/all",
-        icon: HandshakeIcon,
-      },
-      {
-        name: "Users",
-        url: "/users/all",
-        icon: Users2,
-      },
-      {
-        name: "Units",
-        url: "/units/all",
-        icon: DoorOpen,
-      },
-    ],
-    // No CP section for building_manager
-    issues: [
-      {
-        name: "Maintenance Requests",
-        url: "/maintenance-request",
-        icon: UtilityPole
-      }
-    ]
-  },
-  business_staff: {
-    navMain: [
-      // No tenants, users for business_staff
-      {
-        name: "Units",
-        url: "#",
-        icon: DoorOpen,
-      },
-    ],
-    // No CP section for business_staff
-    issues: [
-      {
-        name: "Maintenance Requests",
-        url: "#",
-        icon: UtilityPole
-      }
-    ]
   }
 };
 
@@ -177,15 +86,15 @@ interface AppSidebarProps {
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
   const currentUser = user;
   const userRole = currentUser?.role;
-  
+
   console.log("Current user role:", userRole);
-  
+
   // Get navigation for current role, fallback to empty objects if role doesn't exist
-  const currentNavigation: RoleNavigation = 
-    userRole && roleNavigation[userRole as keyof typeof roleNavigation] 
-    ? roleNavigation[userRole as keyof typeof roleNavigation] 
-    : {};
-  
+  const currentNavigation: RoleNavigation =
+    userRole && roleNavigation[userRole as keyof typeof roleNavigation]
+      ? roleNavigation[userRole as keyof typeof roleNavigation]
+      : { navMain: [] };
+
   console.log("Current navigation:", currentNavigation);
 
   return (
@@ -203,6 +112,8 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <NavProjects projects={commonNavigation.projects} label="Home" />
+        {currentNavigation.navMain && currentNavigation.navMain.length > 0 &&
+          <NavProjects projects={currentNavigation.navMain} label="User" />}
       </SidebarContent>
       <SidebarFooter>
         {currentUser && <NavUser user={currentUser} />}

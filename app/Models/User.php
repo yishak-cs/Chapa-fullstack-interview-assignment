@@ -114,8 +114,12 @@ class User extends Authenticatable
                 ->orWhere('recipient_id', $this->id);
         })->orderBy('created_at', 'desc');
     }
-
-    public function getAllManagedUsers()
+    /**
+     * Get all users managed by this user based on their role
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllManagedUsers(): \Illuminate\Support\Collection
     {
         if ($this->role === 'super_admin') {
             return User::all();

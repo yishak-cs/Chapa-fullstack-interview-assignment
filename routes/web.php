@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Application;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -13,13 +14,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    $role = Auth::user()->role;
-    if ($role) {
-        return Inertia::render("{$role}/Dashboard");
-    }
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 require __DIR__ . '/auth.php';
