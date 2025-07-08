@@ -2,12 +2,7 @@ import {
   Users2,
   Home,
   Building2,
-  HandshakeIcon,
   DoorOpen,
-  Signature,
-  BanknoteIcon,
-  UtilityPole,
-  LucideBriefcaseBusiness,
 } from "lucide-react"
 
 import { NavUser } from "@/Components/nav-user"
@@ -41,7 +36,7 @@ const roleNavigation: Record<string, RoleNavigation> = {
     navMain: [
       {
         name: "Users",
-        url: "/users/all",
+        url: "/users",
         icon: Users2,
       },
     ],
@@ -50,7 +45,7 @@ const roleNavigation: Record<string, RoleNavigation> = {
     navMain: [
       {
         name: "Users",
-        url: "/users/all",
+        url: "/users",
         icon: Users2,
       },
     ],
@@ -94,8 +89,6 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
     userRole && roleNavigation[userRole as keyof typeof roleNavigation]
       ? roleNavigation[userRole as keyof typeof roleNavigation]
       : { navMain: [] };
-
-  console.log("Current navigation:", currentNavigation);
 
   return (
     <Sidebar collapsible="icon" {...props}>

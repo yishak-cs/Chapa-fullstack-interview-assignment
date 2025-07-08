@@ -65,7 +65,11 @@ class UserController extends Controller
     public function show(User $user)
     {
         Gate::authorize('view', $user);
-        // You can load relationships here if needed
+
+        $user->load([
+            'admin'
+        ]);
+
         return response()->json([
             'data' => $user
         ]);
@@ -76,23 +80,15 @@ class UserController extends Controller
     {
         Gate::authorize('update', $user);
         try {
-           $validated =  $request->validate([
+            $validated =  $request->validate([
                 'is_active' => 'required|boolean',
             ]);
-// TODO: implement is using model observers
-            // If super_admin is updating an admin, cascade to managed users
-            if (Auth::user()->role === 'super_admin' && $user->role === 'admin') {
-                foreach ($user->managedUsers as $managedUser) {
-                    $managedUser->is_active = $validated['is_active'];
-                    $managedUser->save();
-                }
-            }
-            $user->is_active = $validated['is_active'];
-            $user->save();
-// TODO: implement is using model observers
+
+            $user->update([
+                'is_active' => $validated['is_active']
+            ]);
             return response()->json([
                 'message' => 'User updated successfully',
-                'data' => $user
             ], Response::HTTP_OK);
         } catch (ValidationException $e) {
             return response()->json([

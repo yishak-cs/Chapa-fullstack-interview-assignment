@@ -52,6 +52,15 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted()
+    {
+        static::updated(function ($user) {
+            if ($user->role === 'admin' && $user->isDirty('is_active')) {
+                $user->managedUsers()->update(['is_active' => $user->is_active]);
+            }
+        });
+    }
+
     /**
      * Get the admin that owns the User
      *
