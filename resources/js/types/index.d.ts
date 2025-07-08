@@ -2,8 +2,10 @@ import { Config } from 'ziggy-js';
 
 export interface User {
     id: number;
-    name: string;
+    fullname: string;
+    avatar?: string;
     email: string;
+    role: string;
     email_verified_at?: string;
 }
 
