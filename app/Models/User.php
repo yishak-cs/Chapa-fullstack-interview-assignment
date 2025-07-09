@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -54,6 +53,17 @@ class User extends Authenticatable
 
     protected static function booted()
     {
+        static::created(function ($user) {
+            //create wallet for role 'user' 
+            if ($user->role === 'user') {
+                $user->wallet()->create([
+                    'balance' => 1000.00,
+                    'currency' => 'birr',
+                    'is_active' => true,
+                ]);
+            }
+        });
+
         static::updated(function ($user) {
             if ($user->role === 'admin' && $user->isDirty('is_active')) {
                 $user->managedUsers()->update(['is_active' => $user->is_active]);
@@ -88,7 +98,7 @@ class User extends Authenticatable
      */
     public function wallet(): HasOne
     {
-        return $this->hasOne(User::class, 'user_id', 'id');
+        return $this->hasOne(wallet::class, 'user_id', 'id');
     }
 
     /**
@@ -108,7 +118,7 @@ class User extends Authenticatable
      */
     public function receivedTransations(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'receipeint_id', 'id');
+        return $this->hasMany(Transaction::class, 'recipient_id', 'id');
     }
 
     /**

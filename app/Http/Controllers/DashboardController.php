@@ -46,7 +46,7 @@ class DashboardController extends Controller
             'transactions' => $user->allTransactions()->with(['sender', 'recipient'])->get(),
             'stats' => [
                 'totalSent' => $user->sentTransactions()->sum('amount'),
-                'totalReceived' => $user->receivedTransactions()->sum('amount'),
+                'totalReceived' => $user->receivedTransations()->sum('amount'),
                 'transactionCount' => $user->allTransactions()->count(),
             ]
         ];
@@ -54,7 +54,7 @@ class DashboardController extends Controller
 
     private function getAdminData(User $admin): array
     {
-        $managedUsers = $admin->managedUsers()->with('wallet')->get();
+        $managedUsers = $admin->managedUsers()->get();
         $managedUserIds = $managedUsers->pluck('id');
 
         // Get all transactions where sender or recipient is one of the managed users
@@ -62,22 +62,26 @@ class DashboardController extends Controller
             $query->whereIn('sender_id', $managedUserIds)
                 ->orWhereIn('recipient_id', $managedUserIds);
         })
-            ->with(['sender', 'recipient'])
+            ->with([
+                'sender:id,name,email',
+                'recipient:id,name,email',
+            ])
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Calculate total amount processed by managed users
         $totalAmountProcessed = $managedUsersTransactions->sum('amount');
 
+        $totalManagedUsersBalance = Wallet::whereIn('user_id', $managedUsers->pluck('id'))->sum('balance');
+
         return [
-            'wallet' => $admin->wallet,
             'managedUsers' => $managedUsers,
             'managedUsersTransactions' => $managedUsersTransactions,
             'stats' => [
                 'totalManagedUsers' => $managedUsers->count(),
                 'activeManagedUsers' => $managedUsers->where('is_active', true)->count(),
+                'NumberOfTransactions'=>$managedUsersTransactions->count(),
                 'totalAmountProcessed' => $totalAmountProcessed,
-                'totalManagedUsersBalance' => $managedUsers->sum('wallet.balance'),
+                'totalManagedUsersBalance' => $totalManagedUsersBalance,
             ]
         ];
     }

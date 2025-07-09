@@ -22,7 +22,6 @@ class Transaction extends Model
         'description',
         'status',
         'reference_number',
-        'type'
     ];
     /**
      * Get the user that initiated the Transaction

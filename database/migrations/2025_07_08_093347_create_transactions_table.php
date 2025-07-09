@@ -22,7 +22,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('status', ['completed', 'failed'])->default('completed');
             $table->string('reference_number')->unique();
-            $table->enum('type', ['p2p_sent', 'p2p_received']);
             $table->timestamps();
         });
     }

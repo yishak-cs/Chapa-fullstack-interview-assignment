@@ -3,6 +3,7 @@ import {
   Home,
   Building2,
   DoorOpen,
+  CircleDollarSign,
 } from "lucide-react"
 
 import { NavUser } from "@/Components/nav-user"
@@ -50,16 +51,6 @@ const roleNavigation: Record<string, RoleNavigation> = {
       },
     ],
   },
-  user: {
-    navMain: [
-      {
-        name: "Units",
-        url: "#",
-        icon: DoorOpen,
-      },
-    ],
-
-  }
 };
 
 // Common navigation items for all roles
@@ -93,13 +84,13 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader style={{ marginTop: '10px', marginLeft: '10px' }}>
-        <div className="container flex h-16 gap-3 items-center group-data-[collapsible=icon]:hidden">
+        <div className="container flex h-16 gap-2 items-center group-data-[collapsible=icon]:hidden">
 
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-700 shadow-lg">
-            <Building2 className="h-6 w-6 text-white drop-shadow-md absolute transform -translate-y-[1px]" />
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-green-600 to-green-400 shadow-lg">
+            <CircleDollarSign className="h-6 w-6 text-white drop-shadow-md absolute transform -translate-y-[1px]" />
             <div className="absolute inset-0 rounded-lg bg-white/10 backdrop-blur-[1px] opacity-20"></div>
           </div>
-          <span className="text-xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700 drop-shadow-sm">Biqiltuu</span>
+          <span className="text-xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400 drop-shadow-sm">CHAPA</span>
 
         </div>
       </SidebarHeader>

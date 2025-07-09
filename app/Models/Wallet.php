@@ -14,9 +14,10 @@ class Wallet extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_id',
+        'balance',
+        'currency',
+        'is_active',
     ];
 
     /**

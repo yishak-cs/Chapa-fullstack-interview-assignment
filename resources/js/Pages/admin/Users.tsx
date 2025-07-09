@@ -31,7 +31,6 @@ import {
 import { Label } from "@/Components/ui/label";
 import { Input } from "@/Components/ui/input";
 import { Switch } from "@/Components/ui/switch";
-import { router } from "@inertiajs/react";
 
 interface UserProps extends PageProps {
   users: User[]
@@ -48,11 +47,6 @@ interface DetailedUser {
   role: string;
   email: string;
   is_active: boolean;
-  Manager?: {
-    id: number;
-    name: string;
-    email: string;
-  }
 }
 
 export default function UsersPage({ auth, users: initialUsers }: UserProps) {
@@ -68,7 +62,7 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
     name: '',
     email: '',
     phone: '',
-    role: 'admin',
+    role: 'user',
     password: '',
     password_confirmation: ''
   });
@@ -96,10 +90,10 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
         let badgeVariant: "default" | "secondary" | "outline" = "default";
 
         switch (role) {
-          case "super_admin":
+          case "super_User":
             badgeVariant = "default";
             break;
-          case "admin":
+          case "User":
             badgeVariant = "secondary";
             break;
           case "userr":
@@ -195,7 +189,7 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
       name: '',
       email: '',
       phone: '',
-      role: 'admin',
+      role: 'user',
       password: '',
       password_confirmation: ''
     });
@@ -296,7 +290,7 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
 
       toast.success(response.data?.message || `User ${!currentStatus ? 'activated' : 'deactivated'} successfully`);
       setIsEditDialogOpen(false);
-      router.visit('/users');
+
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 403) {
@@ -347,14 +341,14 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
                 <Plus className="h-4 w-4" />
-                Add Admin
+                Add User
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[70%] border rounded-lg md:max-w-[70%] lg:max-w-[60%] xl:max-w-[40%] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Add New Admin</DialogTitle>
+                <DialogTitle>Add New User</DialogTitle>
                 <DialogDescription>
-                  Enter the details for the new Admin. Click save when you're done.
+                  Enter the details for the new User. Click save when you're done.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
@@ -411,7 +405,7 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
                   Cancel
                 </Button>
                 <Button onClick={handleAddUser} disabled={isLoading}>
-                  {isLoading ? "Saving..." : "Add Admin"}
+                  {isLoading ? "Saving..." : "Add User"}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -491,22 +485,6 @@ export default function UsersPage({ auth, users: initialUsers }: UserProps) {
                             {detailedUser?.is_active ? "Active" : "Inactive"}
                           </span>
                         </div>
-
-                        {detailedUser?.Manager && (
-                          <div className="flex items-center gap-2">
-                            <BriefcaseBusiness className="h-4 w-4 text-gray-500" />
-                            <span className="text-sm text-gray-700">
-                              {detailedUser.Manager.name}
-                            </span>
-                          </div>
-                        )}
-
-                        {detailedUser?.Manager && (
-                          <div className="flex items-center gap-2">
-                            <Home className="h-4 w-4 text-gray-500" />
-                            <span className="text-sm text-gray-700">Unit: {detailedUser.Manager.email}</span>
-                          </div>
-                        )}
                       </div>
 
                       <Separator />

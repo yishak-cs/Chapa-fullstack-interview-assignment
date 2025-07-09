@@ -3,7 +3,9 @@ import DataTable from '@/Components/ui/datatable';
 import DataTableColumnHeader from '@/Components/ui/datatableheader';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps } from '@/types';
+import { router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { useEffect, useState } from 'react';
 
 // Transaction interface
 interface Transaction {
@@ -13,7 +15,6 @@ interface Transaction {
   description: string;
   status: string;
   reference_number: string;
-  type: string;
   sender: {
     id: number;
     name: string;
@@ -46,9 +47,25 @@ interface SuperAdminDashboardProps extends PageProps {
 }
 
 export default function Dashboard({ auth, allTransactions, stats }: SuperAdminDashboardProps) {
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const transactionsData = ((allTransactions && typeof allTransactions === 'object' && 'data' in allTransactions)
     ? allTransactions.data
     : allTransactions) as Transaction[];
+
+
+  useEffect(() => {
+    if (selectedTransaction) {
+      fetchTransactionDetails(selectedTransaction.id);
+    }
+  }, [selectedTransaction]);
+
+  const fetchTransactionDetails = async (transactionId: number) => {
+    try {
+      router.visit(`/transaction/${transactionId}`);
+    } catch (error) {
+      console.error('Error fetching tenant details:', error);
+    }
+  };
 
   const columns: ColumnDef<Transaction>[] = [
     {
@@ -142,9 +159,9 @@ export default function Dashboard({ auth, allTransactions, stats }: SuperAdminDa
           {/* Transactions table or other dashboard content can go here */}
           <Card>
             <CardHeader>
-              <CardTitle>Contracts</CardTitle>
+              <CardTitle>Transactions</CardTitle>
               <CardDescription>
-                Click on a Contract to view the details.
+                Click on a Transaction to view the details.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -152,6 +169,9 @@ export default function Dashboard({ auth, allTransactions, stats }: SuperAdminDa
                 columns={columns}
                 data={transactionsData}
                 searchKey='reference_number'
+                onRowClick={(row) =>
+                  setSelectedTransaction(row.original)
+                }
               />
             </CardContent>
           </Card>
