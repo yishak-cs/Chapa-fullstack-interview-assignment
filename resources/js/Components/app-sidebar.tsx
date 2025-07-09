@@ -1,8 +1,6 @@
 import {
   Users2,
   Home,
-  Building2,
-  DoorOpen,
   CircleDollarSign,
 } from "lucide-react"
 
@@ -90,7 +88,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
             <CircleDollarSign className="h-6 w-6 text-white drop-shadow-md absolute transform -translate-y-[1px]" />
             <div className="absolute inset-0 rounded-lg bg-white/10 backdrop-blur-[1px] opacity-20"></div>
           </div>
-          <span className="text-xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400 drop-shadow-sm">CHAPA</span>
+          <span className="text-xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400 drop-shadow-sm">CASH</span>
 
         </div>
       </SidebarHeader>

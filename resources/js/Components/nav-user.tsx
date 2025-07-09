@@ -1,19 +1,16 @@
 "use client"
 
 import {
-    BadgeCheck,
-    Bell,
     ChevronsUpDown,
     LogOut,
     User as UserIcon,
 } from "lucide-react"
-import { Link, router } from "@inertiajs/react"
+import { router } from "@inertiajs/react"
 import { User } from "@/types"
-
+import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -36,6 +33,10 @@ export function NavUser({
         router.post(route('logout'))
     }
 
+    const getInitials = (name: string) => {
+        return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    };
+
     return (
         <>
             <SidebarMenu>
@@ -46,17 +47,13 @@ export function NavUser({
                                 size="lg"
                                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                             >
-                                {user.avatar ? (
-                                    <img
-                                        src={user.avatar}
-                                        alt="User Avatar"
-                                        className="h-8 w-8 rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <UserIcon className="h-8 w-8 rounded-full p-1 bg-gray-100 text-gray-600" />
-                                )}
+                                <Avatar className="w-12 h-12 bg-blue-100">
+                                    <AvatarFallback className="bg-blue-500 text-white font-semibold">
+                                        {getInitials(user.name)}
+                                    </AvatarFallback>
+                                </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{user.fullname}</span>
+                                    <span className="truncate font-semibold">{user.name}</span>
                                     <span className="truncate text-xs">{user.email}</span>
                                 </div>
                                 <ChevronsUpDown className="ml-auto size-4" />
@@ -70,17 +67,13 @@ export function NavUser({
                         >
                             <DropdownMenuLabel className="p-0 font-normal">
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                    {user.avatar ? (
-                                        <img
-                                            src={user.avatar}
-                                            alt="User Avatar"
-                                            className="h-8 w-8 rounded-full object-cover"
-                                        />
-                                    ) : (
-                                        <UserIcon className="h-8 w-8 rounded-full p-1 bg-gray-100 text-gray-600" />
-                                    )}
+                                    <Avatar className="w-12 h-12 bg-blue-100">
+                                        <AvatarFallback className="bg-blue-500 text-white font-semibold">
+                                            {getInitials(user.name)}
+                                        </AvatarFallback>
+                                    </Avatar>
                                     <div className="grid flex-1 text-left text-sm leading-tight">
-                                        <span className="truncate font-semibold">{user.fullname}</span>
+                                        <span className="truncate font-semibold">{user.name}</span>
                                         <span className="truncate text-xs">{user.email}</span>
                                     </div>
                                 </div>

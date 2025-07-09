@@ -263,7 +263,7 @@ export default function Dashboard({ auth, wallet, transactions, stats }: UserDas
       <Toaster />
       <div className="flex flex-1 flex-col gap-4 p-4 sm:p-6 pt-0">
         <div className="space-y-6">
-          <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
+          <Card className="bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-lg">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg font-medium flex items-center">
                 <Wallet className="h-5 w-5 mr-2" />

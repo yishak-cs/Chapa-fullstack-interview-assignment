@@ -6,6 +6,7 @@ import { PageProps } from '@/types';
 import { router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
+import { Users, ArrowLeftRight, CircleDollarSign } from "lucide-react";
 
 // Transaction interface
 interface Transaction {
@@ -118,24 +119,32 @@ export default function Dashboard({ auth, allTransactions, stats }: SuperAdminDa
         <div className="space-y-6">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             {/* Users stats card */}
-            <Card className="aspect-video flex flex-col justify-center items-center">
-              <CardHeader className="w-full text-center">
-                <CardTitle>Users</CardTitle>
+            <Card className="aspect-video flex flex-col justify-center items-center shadow-lg">
+              <CardHeader className="w-full text-center flex flex-col items-center">
+                <Users className="h-8 w-8 text-green-500 mb-2" />
+                <CardTitle className="text-lg font-semibold">Users</CardTitle>
+                <CardDescription>
+                  Total users in the system.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center w-full">
                 <div className="text-4xl font-bold text-primary mb-2">{stats.totalUsers}</div>
                 <div className="flex flex-wrap justify-center gap-2 text-xs text-muted-foreground">
-                  <span className="">Admins: <span className="font-semibold">{stats.totalAdmins}</span></span>
-                  <span className="">Regular: <span className="font-semibold">{stats.totalRegularUsers}</span></span>
-                  <span className="">Active: <span className="font-semibold">{stats.activeUsers}</span></span>
-                  <span className="">Inactive: <span className="font-semibold">{stats.inactiveUsers}</span></span>
+                  <span>Admins: <span className="font-semibold">{stats.totalAdmins}</span></span>
+                  <span>Regular: <span className="font-semibold">{stats.totalRegularUsers}</span></span>
+                  <span>Active: <span className="font-semibold">{stats.activeUsers}</span></span>
+                  <span>Inactive: <span className="font-semibold">{stats.inactiveUsers}</span></span>
                 </div>
               </CardContent>
             </Card>
             {/* Transactions stats card */}
-            <Card className="aspect-video flex flex-col justify-center items-center">
-              <CardHeader className="w-full text-center">
-                <CardTitle>Transactions</CardTitle>
+            <Card className="aspect-video flex flex-col justify-center items-center shadow-lg">
+              <CardHeader className="w-full text-center flex flex-col items-center">
+                <ArrowLeftRight className="h-8 w-8 text-blue-500 mb-2" />
+                <CardTitle className="text-lg font-semibold">Transactions</CardTitle>
+                <CardDescription>
+                  Total value and count of all transactions in the system.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center w-full">
                 <div className="text-4xl font-bold text-primary mb-2">{stats.totalAmountProcessed}</div>
@@ -147,9 +156,13 @@ export default function Dashboard({ auth, allTransactions, stats }: SuperAdminDa
               </CardContent>
             </Card>
             {/* System balance card */}
-            <Card className="aspect-video flex flex-col justify-center items-center">
-              <CardHeader className="w-full text-center">
-                <CardTitle>System Balance</CardTitle>
+            <Card className="aspect-video flex flex-col justify-center items-center shadow-lg">
+              <CardHeader className="w-full text-center flex flex-col items-center">
+                <CircleDollarSign className="h-8 w-8 text-yellow-500 mb-2" />
+                <CardTitle className="text-lg font-semibold">System Balance</CardTitle>
+                <CardDescription>
+                  Sum of all wallet balances across the entire system.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center w-full">
                 <div className="text-4xl font-bold text-primary mb-2">{stats.totalSystemBalance}</div>

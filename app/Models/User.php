@@ -66,7 +66,14 @@ class User extends Authenticatable
 
         static::updated(function ($user) {
             if ($user->role === 'admin' && $user->isDirty('is_active')) {
-                $user->managedUsers()->update(['is_active' => $user->is_active]);
+                foreach ($user->managedUsers as $managedUser) {
+                    $managedUser->is_active = $user->is_active;
+                    $managedUser->save();
+                }
+            }
+            if ($user->role === 'user' && $user->isDirty('is_active') && $user->wallet) {
+                $user->wallet->is_active = $user->is_active;
+                $user->wallet->save();
             }
         });
     }

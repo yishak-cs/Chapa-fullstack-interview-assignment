@@ -6,6 +6,7 @@ import { PageProps } from '@/types';
 import { router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
+import { Users, ArrowLeftRight, CircleDollarSign } from "lucide-react";
 
 // Transaction interface
 interface Transaction {
@@ -112,22 +113,28 @@ export default function Dashboard({ auth, managedUsersTransactions, stats }: Adm
       <div className="flex flex-1 flex-col gap-4 p-4 sm:p-6 pt-0">
         <div className="space-y-6">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {/* Users stats card */}
-            <Card className="flex flex-col justify-center items-center">
-              <CardHeader className="w-full text-center">
-                <CardTitle>Users</CardTitle>
+            <Card className="flex flex-col justify-center items-center shadow-lg">
+              <CardHeader className="w-full text-center flex flex-col items-center">
+                <Users className="h-8 w-8 text-green-500 mb-2" />
+                <CardTitle className="text-lg font-semibold">Users</CardTitle>
+                <CardDescription>
+                  Total users managed by you. Includes active and inactive users.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center w-full">
                 <div className="text-4xl font-bold text-primary mb-2">{stats.totalManagedUsers}</div>
                 <div className="flex flex-wrap justify-center gap-2 text-xs text-muted-foreground">
-                  <span className="">Active: <span className="font-semibold">{stats.activeManagedUsers}</span></span>
+                  <span>Active: <span className="font-semibold">{stats.activeManagedUsers}</span></span>
                 </div>
               </CardContent>
             </Card>
-            {/* Transactions stats card */}
-            <Card className="flex flex-col justify-center items-center">
-              <CardHeader className="w-full text-center">
-                <CardTitle>Transactions</CardTitle>
+            <Card className="flex flex-col justify-center items-center shadow-lg">
+              <CardHeader className="w-full text-center flex flex-col items-center">
+                <ArrowLeftRight className="h-8 w-8 text-blue-500 mb-2" />
+                <CardTitle className="text-lg font-semibold">Transactions</CardTitle>
+                <CardDescription>
+                  Total number of transactions processed by your users and the total amount.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center w-full">
                 <div className="text-4xl font-bold text-primary mb-2">{stats.NumberOfTransactions}</div>
@@ -137,16 +144,19 @@ export default function Dashboard({ auth, managedUsersTransactions, stats }: Adm
               </CardContent>
             </Card>
             {/* System balance card */}
-            <Card className="flex flex-col justify-center items-center">
-              <CardHeader className="w-full text-center">
-                <CardTitle>total Users Balance</CardTitle>
+            <Card className="flex flex-col justify-center items-center shadow-lg">
+              <CardHeader className="w-full text-center flex flex-col items-center">
+                <CircleDollarSign className="h-8 w-8 text-yellow-500 mb-2" />
+                <CardTitle className="text-lg font-semibold">Total Users Balance</CardTitle>
+                <CardDescription>
+                  Sum of all wallet balances for users you manage.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center w-full">
                 <div className="text-4xl font-bold text-primary mb-2">{stats.totalManagedUsersBalance}</div>
               </CardContent>
             </Card>
           </div>
-          {/* Transactions table or other dashboard content can go here */}
           <Card>
             <CardHeader>
               <CardTitle>Transactions</CardTitle>
