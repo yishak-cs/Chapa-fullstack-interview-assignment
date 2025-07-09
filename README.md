@@ -1,61 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Chapa Fullstack Interview Assignment
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A single-page web application for a fictional Payment Service Provider company, built with **Laravel** (backend) and **React** (frontend).
 
-## About Laravel
+## Features & User Roles
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### User
+- View wallet balance
+- See transaction history
+- Initiate a payment (mocked, no real payment integration)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Admin
+- View list of users
+- Activate/deactivate users
+- View a summary of payments made by users
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Super Admin
+- All Admin features, plus:
+- Create or remove Admins
+- View system-wide statistics (total payments, number of active users, etc.)
 
-## Learning Laravel
+## Authentication
+- Uses **Laravel Sanctum** for authentication
+- No token-based API auth required
+- Only the **super_admin** is seeded by default (see below for credentials)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Technical Stack
+- **Backend:** Laravel
+- **Frontend:** React (with Vite, TypeScript, TailwindCSS, shadcn/ui)
+- **Database:** SQLite (default, can be changed)
+- **Package manager:** pnpm (recommended)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Project Structure & Approach
+- Clean, organized folder structure for both backend and frontend
+- Role-based routing and UI on the frontend
+- Basic, modern styling and user-friendly UI
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Getting Started
 
-## Laravel Sponsors
+### 1. Clone the repository
+```sh
+git clone https://github.com/yishak-cs/chapa-fullstack-interview-assignment.git
+cd chapa-fullstack-interview-assignment
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install dependencies
+#### Backend (Laravel)
+```sh
+composer install
+```
+#### Frontend (React)
+```sh
+pnpm install
+```
 
-### Premium Partners
+### 3. Set up environment
+- Copy `.env.example` to `.env` and configure as needed (default uses SQLite)
+- Generate Laravel app key:
+```sh
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 4. Run migrations and seeders
+```sh
+php artisan migrate --seed
+```
+- This will seed the database with a **super_admin** account:
+  - **Email:** test@example.com
+  - **Password:** password
+- **No other users, admins, transactions, or wallets are seeded by default.**
 
-## Contributing
+### 5. Create Admins and Users
+- Log in as the super_admin (see credentials above).
+- Go to the Users page and create one or more Admin accounts.
+- Log out, then log in as an Admin you created.
+- As an Admin, go to the Users page and create User accounts. **Each user account will automatically have a wallet with a starting balance of 1000.**
+- Once multiple users exist, you can log in as a user and make transactions to other users.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 6. Start the development servers
+#### Backend (Laravel API)
+```sh
+php artisan serve
+```
+#### Frontend (Vite React)
+```sh
+pnpm run dev
+```
 
-## Code of Conduct
+### 7. Access the app
+- Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal)
+- Log in with the seeded super_admin, or with any admin/user you create
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Notes
+- **Role-based UI:** The dashboard and navigation change based on the logged-in user's role (User, Admin, Super Admin).
+- **Wallets:** **Only user-role accounts have wallets.** Admin and super_admin accounts do not have wallets. When a user is activated/deactivated, their wallet is also updated. When an admin is activated/deactivated, all users they manage and their wallets are updated accordingly.
+- **Transactions:** Users can make payments to other users. Admins and super admins can view summaries and statistics.
+- **Styling:** Uses TailwindCSS and shadcn/ui for a modern, responsive UI.
+- **Package manager:** pnpm is recommended for faster and more efficient installs.
 
-## Security Vulnerabilities
+## Author
+**Yishak Abraham Bantirgu**  
+Email: yishakab@24gmail.com  
+Phone: 0907968056  
+GitHub: [github.com/yishak-cs](https://github.com/yishak-cs)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Repository:** [chapa-fullstack-interview-assignment](https://github.com/yishak-cs/chapa-fullstack-interview-assignment)
